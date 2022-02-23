@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"net/http"
+	"time"
 )
 
 func main() {
@@ -14,8 +16,15 @@ func main() {
 	defer db.Close()
 
 	// Routes Configuration
-	setupRouter()
+	router := setupRouter(db)
 
 	// Server Configuration
+	srv := &http.Server{
+		Handler:      router,
+		Addr:         "127.0.0.1:8000",
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	log.Fatal(srv.ListenAndServe())
 
 }

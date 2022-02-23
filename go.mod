@@ -8,4 +8,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 )
 
-require golang.org/x/sys v0.0.0-20220222200937-f2425489ef4c // indirect
+require (
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	golang.org/x/sys v0.0.0-20220222200937-f2425489ef4c // indirect
+)

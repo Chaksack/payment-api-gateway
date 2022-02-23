@@ -4,9 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
-	"time"
 
 	"github.com/boltdb/bolt"
 	"github.com/chaksack/payment-api-gateway/constant"
@@ -17,10 +15,11 @@ import (
 
 var db *bolt.DB
 
-func setupRouter() *mux.Router {
+func setupRouter(dbConfig *bolt.DB) *mux.Router {
 
 	// Database Config
-	// db = dbConfig
+
+	db = dbConfig
 
 	// Routes
 	router := mux.NewRouter()
@@ -36,14 +35,6 @@ func setupRouter() *mux.Router {
 	router.HandleFunc("/v1/accounts/deposit", AccountsDeposit).Methods("POST")
 	router.HandleFunc("/v1/accounts/detail", AccountsDetail).Methods("POST")
 	router.HandleFunc("/v1/accounts/statement", AccountsStatement).Methods("POST")
-
-	srv := &http.Server{
-		Handler:      router,
-		Addr:         "127.0.0.1:8000",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-	log.Fatal(srv.ListenAndServe())
 
 	return router
 }
